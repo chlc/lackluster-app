@@ -18,42 +18,49 @@ function renderButtons() {
 	}
 }
 
-// Currency converter array
+// // Currency converter array
 
 var convertingCurrencies = ["AUD", "BRL", "CAD", "CHF", "CLP", "CNY", 
 "CZK", "DKK", "EUR", "GBP", "HKD", "HUF", "IDR", "ILS", 
 "INR", "JPY", "KRW", "MXN", "MYR", "NOK", "NZD", "PHP", 
 "PKR", "PLN", "RUB", "SEK", "SGD", "THB", "TRY", "TWD", "ZAR"];
 
-// Creating currency dropdown
+// // Creating currency dropdown
 
-var currencySelector = $("<div id='currency-selector'>")
-var currencyLabel = $("<label for='currency-dropdown'>")
-var currencyDropdown = $("<select id='currency-dropdown'>");
+// var currencySelector = $("<div id='currency-selector'>")
+// var currencyLabel = $("<label for='currency-dropdown'>")
+// var currencyDropdown = $("<select id='currency-dropdown'>");
 
 
-for (var i = 0; i < convertingCurrencies.length; i++) {
-	var currencyDropdownOptions = $("<option>");
-	currencyDropdownOptions.addClass("currency-dropdown-option");
-	currencyDropdownOptions.attr("value", convertingCurrencies[i]);
-	currencyDropdownOptions.text(convertingCurrencies[i]);
-	currencyDropdown.append(currencyDropdownOptions);
-}
+// for (var i = 0; i < convertingCurrencies.length; i++) {
+// 	var currencyDropdownOptions = $("<option>");
+// 	currencyDropdownOptions.addClass("currency-dropdown-option");
+// 	currencyDropdownOptions.attr("value", convertingCurrencies[i]);
+// 	currencyDropdownOptions.text(convertingCurrencies[i]);
+// 	currencyDropdown.append(currencyDropdownOptions);
+// }
 
-currencySelector.append(currencyLabel);
-currencySelector.append(currencyDropdown);
+// currencySelector.append(currencyLabel);
+// currencySelector.append(currencyDropdown);
 
-$("#header").append(currencySelector);
+// $("#header").append(currencySelector);
 
 // Note: The dropdown is not yet connected to the API AJAX call, 
 // that is the next step
+var getCurrency = $("#currency-dropdown").val();
+
+$("#currency-dropdown").on("change", function(){
+	getCurrency = $("#currency-dropdown").val();
+	tickerAJAXCall(getCurrency);
+
+});
 
 // API AJAX call function
 
 function tickerAJAXCall (currency){
 
 var topNumber = "10"
-var TickerQueryURL = "https://api.coinmarketcap.com/v1/ticker/?convert=" + currency + "&limit=" + topNumber;
+var TickerQueryURL = "https://api.coinmarketcap.com/v1/ticker/?convert=" + "&limit=" + topNumber;
 
 		$("#footer").empty();
 
@@ -66,6 +73,13 @@ var TickerQueryURL = "https://api.coinmarketcap.com/v1/ticker/?convert=" + curre
 			console.log(response);
 
 			var results = response;
+
+			$("#currency-dropdown").on("change", function(){
+				getCurrency = $("#currency-dropdown").val();
+				tickerAJAXCall(getCurrency);
+
+			});
+
 
 			for (var i = 0; i < results.length; i++) {
 
@@ -87,7 +101,7 @@ var TickerQueryURL = "https://api.coinmarketcap.com/v1/ticker/?convert=" + curre
 				tickerDiv.append(ranking);
 				tickerDiv.append(currencyName);
 				tickerDiv.append(priceUSD);
-				tickerDiv.append(priceOther);
+				tickerDiv.append(Math.floor(getCurrency * results[i].price_usd));
 				changeOnehour.html(results[i].percent_change_1h + "% in last hour");
 				tickerDiv.append(changeOnehour);
 				tickerDiv.append(changeDay);
@@ -99,13 +113,12 @@ var TickerQueryURL = "https://api.coinmarketcap.com/v1/ticker/?convert=" + curre
 
 // Call function to generate ticker when page loads
 
-	tickerAJAXCall("EUR");
+	tickerAJAXCall(getCurrency);
 
 // Reload ticker when type of currency is changed in dropdown
 
 $("#currency-dropdown").on("change", function(){
 var getCurrency = $("#currency-dropdown").val();
-console.log(getCurrency);
 	tickerAJAXCall(getCurrency);
 
 });
@@ -157,6 +170,10 @@ var searchQueryURL = "https://api.coinmarketcap.com/v1/ticker/" + currency + "/"
 function converterAJAXCall (currency){
 
 var converterQueryURL = "http://api.fixer.io/latest?base=USD";
+var getCurrency = $("#currency-dropdown").val();
+var currencySelector = $("<div id='currency-selector'>")
+var currencyLabel = $("<label for='currency-dropdown'>")
+var currencyDropdown = $("<select id='currency-dropdown'>");
 
 
 		$.ajax({
@@ -165,7 +182,27 @@ var converterQueryURL = "http://api.fixer.io/latest?base=USD";
 		})
 		.done(function(response) {
 
-			console.log(response.rates);
+			console.log(response);
+
+			$.each(response.rates, function (i, val) {
+				
+
+
+	var currencyDropdownOptions = $("<option>");
+	currencyDropdownOptions.addClass("currency-dropdown-option");
+	currencyDropdownOptions.attr("value", val);
+	currencyDropdownOptions.attr("data-name", i);
+	currencyDropdownOptions.text(i);
+	currencyDropdown.append(currencyDropdownOptions);
+
+
+currencySelector.append(currencyLabel);
+currencySelector.append(currencyDropdown);
+
+$("#header").append(currencySelector);
+			})
+
+			
 
 			// var results = response;
 
@@ -200,5 +237,5 @@ var converterQueryURL = "http://api.fixer.io/latest?base=USD";
 	});
 }
 
-	converterAJAXCall (ILS);
+	converterAJAXCall ();
 
