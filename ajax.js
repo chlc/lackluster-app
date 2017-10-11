@@ -53,13 +53,12 @@ $("#header").append(currencySelector);
 function tickerAJAXCall (currency){
 
 var topNumber = "10"
-var queryURL = "https://api.coinmarketcap.com/v1/ticker/?convert=" + currency + "&limit=" + topNumber;
-// var otherCurrency = results[i].price_ + currency.toLowerCase();
+var TickerQueryURL = "https://api.coinmarketcap.com/v1/ticker/?convert=" + currency + "&limit=" + topNumber;
 
 		$("#footer").empty();
 
 		$.ajax({
-			url: queryURL,
+			url: TickerQueryURL,
 			method: "GET"
 		})
 		.done(function(response) {
@@ -73,15 +72,23 @@ var queryURL = "https://api.coinmarketcap.com/v1/ticker/?convert=" + currency + 
 				var tickerDiv = $("<div class='ticker'>");
 				var ranking = "<p>" + results[i].rank + ". </p>";
 				var currencyName = "<p>" + results[i].name + "  (" + results[i].symbol + ") </p>";
-				var priceUSD = "<p>" + results[i].price_usd + "  USD  </p>";
+				var priceUSD = "<p> $" + results[i].price_usd + "  USD  </p>";
 				var priceOther = "<p>" + results[i].price_eur + "  Other  </p>";
-				var changeOnehour = "<p>" + results[i].percent_change_1h + "%  </p>";
-				var changeDay = "<p>" + results[i].percent_change_24h + "%  </p>";
+				var changeOnehour = $("<p>");
+				var changeDay = "<p>" + results[i].percent_change_24h + "%  in last 24 hours</p>";
+
+				if (results[i].percent_change_1h > 0) {
+					changeOnehour.attr("style", "color: green;");
+				}
+				else {
+					changeOnehour.attr("style", "color: red;");
+				}
 
 				tickerDiv.append(ranking);
 				tickerDiv.append(currencyName);
 				tickerDiv.append(priceUSD);
 				tickerDiv.append(priceOther);
+				changeOnehour.html(results[i].percent_change_1h + "% in last hour");
 				tickerDiv.append(changeOnehour);
 				tickerDiv.append(changeDay);
 
@@ -111,5 +118,87 @@ $("#add-currency").on("click", function(event) {
 	cryptocurrencies.push(cryptocurrencyType);
 	renderButtons();
 	$("#currency-input").val("");
+	searchCurrencyAJAXCall (cryptocurrencyType);
 });
+
+function searchCurrencyAJAXCall (currency){
+
+var searchQueryURL = "https://api.coinmarketcap.com/v1/ticker/" + currency + "/";
+
+		$.ajax({
+			url: searchQueryURL,
+			method: "GET"
+		})
+		.done(function(response) {
+
+			console.log(response);
+
+			var results = response;
+
+				var searchedCurrencyDiv = $("<div class='searched'>");
+
+				searchedCurrencyDiv.attr("style", "color: blue;");
+				
+				searchedCurrencyDiv.append("<p>" + results[0].rank + ". </p>");
+				searchedCurrencyDiv.append("<p> $" + results[0].price_usd + " USD</p>");
+				searchedCurrencyDiv.append("<p>" + results[0].percent_change_1h + "% </p>");
+				searchedCurrencyDiv.append("<p>" + results[0].percent_change_24h + "% </p>");
+
+				$("#currency-description").append(searchedCurrencyDiv);
+			
+		});
+	}
+
+
+
+
+
+
+function converterAJAXCall (currency){
+
+var converterQueryURL = "http://api.fixer.io/latest?base=USD";
+
+
+		$.ajax({
+			url: converterQueryURL,
+			method: "GET"
+		})
+		.done(function(response) {
+
+			console.log(response.rates);
+
+			// var results = response;
+
+			// for (var i = 0; i < results.length; i++) {
+
+			// 	var tickerDiv = $("<div class='ticker'>");
+			// 	var ranking = "<p>" + results[i].rank + ". </p>";
+			// 	var currencyName = "<p>" + results[i].name + "  (" + results[i].symbol + ") </p>";
+			// 	var priceUSD = "<p> $" + results[i].price_usd + "  USD  </p>";
+			// 	var priceOther = "<p>" + results[i].price_eur + "  Other  </p>";
+			// 	var changeOnehour = $("<p>");
+			// 	var changeDay = "<p>" + results[i].percent_change_24h + "%  in last 24 hours</p>";
+
+			// 	if (results[i].percent_change_1h > 0) {
+			// 		changeOnehour.attr("style", "color: green;");
+			// 	}
+			// 	else {
+			// 		changeOnehour.attr("style", "color: red;");
+			// 	}
+
+			// 	tickerDiv.append(ranking);
+			// 	tickerDiv.append(currencyName);
+			// 	tickerDiv.append(priceUSD);
+			// 	tickerDiv.append(priceOther);
+			// 	changeOnehour.html(results[i].percent_change_1h + "% in last hour");
+			// 	tickerDiv.append(changeOnehour);
+			// 	tickerDiv.append(changeDay);
+
+			// 	$("#footer").append(tickerDiv);
+		// 	}
+		// });
+	});
+}
+
+	converterAJAXCall (ILS);
 
