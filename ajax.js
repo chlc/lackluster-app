@@ -19,7 +19,7 @@ function renderButtons() {
 	}
 }
 
-var getCurrency;
+var getCurrency = 0;
 
 
 
@@ -27,22 +27,22 @@ var getCurrency;
 
 function tickerAJAXCall (){
 
-var topNumber = "10"
-var TickerQueryURL = "https://api.coinmarketcap.com/v1/ticker/?convert=" + "&limit=" + topNumber;
+	var topNumber = "10"
+	var TickerQueryURL = "https://api.coinmarketcap.com/v1/ticker/?convert=" + "&limit=" + topNumber;
 
-		$("#footer").empty();
+	$("#footer").empty();
 
-		$.ajax({
-			url: TickerQueryURL,
-			method: "GET"
-		})
-		.done(function(response) {
+	$.ajax({
+		url: TickerQueryURL,
+		method: "GET"
+	})
+	.done(function(response) {
 
-			console.log(response);
+		console.log(response);
 
-			var results = response;
+		var results = response;
 
-			
+
 
 			// This for loop takes the info from the API call
 			// and pushes it to the DOM
@@ -86,11 +86,11 @@ var TickerQueryURL = "https://api.coinmarketcap.com/v1/ticker/?convert=" + "&lim
 
 			});
 		});
-	}
+}
 
 // Call function to generate ticker when page loads
 
-	tickerAJAXCall();
+tickerAJAXCall();
 
 // Currency search box listener that also calls the renderButtons
 // function, which makes a button based on the search and also
@@ -112,31 +112,50 @@ $("#add-currency").on("click", function(event) {
 
 function searchCurrencyAJAXCall (currency){
 
-var searchQueryURL = "https://api.coinmarketcap.com/v1/ticker/" + currency + "/";
+	var searchQueryURL = "https://api.coinmarketcap.com/v1/ticker/" + currency + "/";
 
-		$.ajax({
-			url: searchQueryURL,
-			method: "GET"
-		})
-		.done(function(response) {
+	$.ajax({
+		url: searchQueryURL,
+		method: "GET"
+	})
+	.done(function(response) {
 
-			console.log(response);
+		console.log(response);
+		var results = response;
+		var searchedCurrencyDiv = $("<div class='searched'>");
+		var USDConverterForm = $("<form id='usd-to-crypto'>");
+		var USDConverterFormLabel = $("<label for='usd-to-crypto-box'>");
+		var USDConverterFormInput = $("<input type='text' id='usd-to-crypto-box'>");
+		var converterResults = $("<div id='converter-results'>");
 
-			var results = response;
+		searchedCurrencyDiv.attr("style", "color: blue;");
 
-				var searchedCurrencyDiv = $("<div class='searched'>");
+		searchedCurrencyDiv.append("<p>" + results[0].rank + ". </p>");
+		searchedCurrencyDiv.append("<p> $" + results[0].price_usd + " USD</p>");
+		searchedCurrencyDiv.append("<p>" + results[0].percent_change_1h + "% </p>");
+		searchedCurrencyDiv.append("<p>" + results[0].percent_change_24h + "% </p>");
+		searchedCurrencyDiv.append(USDConverterForm);
+		USDConverterFormLabel.text("Convert  " + results[0].name + " to USD");
+		USDConverterForm.append(USDConverterFormLabel);
+		USDConverterFormInput.attr("placeholder", "Convert " + results[0].name + "to USD");
+		USDConverterForm.append(USDConverterFormInput);
+		searchedCurrencyDiv.append(converterResults);
 
-				searchedCurrencyDiv.attr("style", "color: blue;");
-				
-				searchedCurrencyDiv.append("<p>" + results[0].rank + ". </p>");
-				searchedCurrencyDiv.append("<p> $" + results[0].price_usd + " USD</p>");
-				searchedCurrencyDiv.append("<p>" + results[0].percent_change_1h + "% </p>");
-				searchedCurrencyDiv.append("<p>" + results[0].percent_change_24h + "% </p>");
 
-				$("#currency-description").append(searchedCurrencyDiv);
-			
-		});
-	}
+		$("#currency-description").append(searchedCurrencyDiv);
+
+				// Change function that listens for a change in the
+				// converter box to change from cryptocurrency to USD
+
+				$("#usd-to-crypto-box").on("change", function(){
+					var userUSD = $("#usd-to-crypto-box").val();
+					var userMoneyConverter = (results[0].price_usd * userUSD);
+					$("#converter-results").text("$" + userMoneyConverter.toFixed(2) + " USD");
+
+				});
+
+			});
+}
 
 
 
@@ -144,22 +163,22 @@ var searchQueryURL = "https://api.coinmarketcap.com/v1/ticker/" + currency + "/"
 // on exchange rates between USD and other foreign currencies.
 
 
-function converterAJAXCall (currency){
+function converterAJAXCall (){
 
-var converterQueryURL = "http://api.fixer.io/latest?base=USD";
+	var converterQueryURL = "http://api.fixer.io/latest?base=USD";
 
-var getCurrency = $("#currency-dropdown").val();
-var currencySelector = $("<div id='currency-selector'>")
-var currencyLabel = $("<label for='currency-dropdown'>")
-var currencyDropdown = $("<select id='currency-dropdown'>");
+	var getCurrency = $("#currency-dropdown").val();
+	var currencySelector = $("<div id='currency-selector'>")
+	var currencyLabel = $("<label for='currency-dropdown'>")
+	var currencyDropdown = $("<select id='currency-dropdown'>");
 
-		$.ajax({
-			url: converterQueryURL,
-			method: "GET"
-		})
-		.done(function(response) {
+	$.ajax({
+		url: converterQueryURL,
+		method: "GET"
+	})
+	.done(function(response) {
 
-			console.log(response);
+		console.log(response);
 
 			// Creating foreign currency dropdown with API info
 
@@ -178,9 +197,14 @@ var currencyDropdown = $("<select id='currency-dropdown'>");
 
 				$("#header").append(currencySelector);
 			});
-	});
+		});
 }
 // Calling the converter function
 
-	converterAJAXCall ();
+converterAJAXCall ();
+
+
+
+
+
 
