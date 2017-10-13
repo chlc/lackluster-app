@@ -12,7 +12,7 @@ function renderButtons() {
 	for (var i = 0; i < cryptocurrencies.length; i++) {
 
 		var addButton = $("<button>");
-		addButton.addClass("cryptocurrency btn");
+		addButton.addClass("cryptocurrency btn button");
 		addButton.attr("data-name", cryptocurrencies[i]);
 		addButton.text(cryptocurrencies[i]);
 		$("#currency-buttons").append(addButton);
@@ -22,6 +22,49 @@ function renderButtons() {
 var getCurrency = 0;
 
 
+// Foreign currency converter API that pulls up-to-date information
+// on exchange rates between USD and other foreign currencies.
+
+
+function converterAJAXCall (){
+
+	var converterQueryURL = "http://api.fixer.io/latest?base=USD";
+
+	var getCurrency = $("#currency-dropdown").val();
+	var currencySelector = $("<div id='currency-selector'>")
+	var currencyLabel = $("<label for='currency-dropdown'>")
+	var currencyDropdown = $("<select id='currency-dropdown'>");
+
+	$.ajax({
+		url: converterQueryURL,
+		method: "GET"
+	})
+	.done(function(response) {
+
+		console.log(response);
+
+			// Creating foreign currency dropdown with API info
+
+			$.each(response.rates, function (i, val) {
+				
+				var currencyDropdownOptions = $("<option>");
+				currencyDropdownOptions.addClass("currency-dropdown-option");
+				currencyDropdownOptions.attr("value", val);
+				currencyDropdownOptions.attr("data-name", i);
+				currencyDropdownOptions.text(i);
+				currencyDropdown.append(currencyDropdownOptions);
+
+
+				currencySelector.append(currencyLabel);
+				currencySelector.append(currencyDropdown);
+
+				$("#header").append(currencySelector);
+			});
+		})
+}
+
+// Calling the converter function
+converterAJAXCall ();
 
 // CoinMarketCap API AJAX call function to generate the ticker sidebar
 
@@ -30,7 +73,7 @@ function tickerAJAXCall (){
 	var topNumber = "10"
 	var TickerQueryURL = "https://api.coinmarketcap.com/v1/ticker/?convert=" + "&limit=" + topNumber;
 
-	$("#footer").empty();
+	// $(".whole-ticker").empty();
 
 	$.ajax({
 		url: TickerQueryURL,
@@ -40,8 +83,16 @@ function tickerAJAXCall (){
 
 		console.log(response);
 
-		var results = response;
+		$(".whole-ticker").empty();
 
+		var results = response;
+		console.log('THIS IS RESPONSE BEFORE LOOP:', results);
+
+		var rowDiv = $("<div class='row'>");
+		var columnDiv = $("<div class='four columns whole-ticker'>");
+		var eightColumnsDiv = $("<div class='eight columns portfolio'>");
+		var currencyDescription = $("<div id='currency-description'>")
+		var currencyButtons = $("<div id='currency-buttons'>");
 
 
 			// This for loop takes the info from the API call
@@ -52,8 +103,8 @@ function tickerAJAXCall (){
 
 				var tickerDiv = $("<div class='ticker'>");
 				var ranking = "<p>" + results[i].rank + ". </p>";
-				var currencyName = "<p>" + results[i].name + "  (" + results[i].symbol + ") </p>";
-				var priceUSD = "<p> $" + results[i].price_usd + "  USD  </p>";
+				var currencyName = "<p>" + results[i].name + "  (" + results[i].symbol + ")---$" + results[i].price_usd + "  USD  </p>";
+				// var priceUSD = "<p> $" + results[i].price_usd + "  USD  </p>";
 				var priceOther = "<p>" + results[i].price_eur + "  Other  </p>";
 				var changeOnehour = $("<p>");
 				var changeDay = "<p>" + results[i].percent_change_24h + "%  in last 24 hours</p>";
@@ -67,24 +118,39 @@ function tickerAJAXCall (){
 
 				tickerDiv.append(ranking);
 				tickerDiv.append(currencyName);
-				tickerDiv.append(priceUSD);
+				// tickerDiv.append(priceUSD);
 				tickerDiv.append((getCurrency * results[i].price_usd).toFixed(2));
 				changeOnehour.html(results[i].percent_change_1h + "% in last hour");
 				tickerDiv.append(changeOnehour);
 				tickerDiv.append(changeDay);
+				columnDiv.append(tickerDiv);
+				eightColumnsDiv.append(currencyButtons);
+				eightColumnsDiv.append(currencyDescription);
+				rowDiv.append(eightColumnsDiv);
+				rowDiv.append(columnDiv);
 
-				$("#footer").append(tickerDiv);
+				$("#footer").append(rowDiv);
 			}
+
+			$( document ).ajaxComplete(function() {
+  				console.log( "Triggered ajaxComplete handler." );
+				});
 
 			// This listener changes the ticker when the 
 			// foreign currency dropdown is changed
 
 			$("#currency-dropdown").on("change", function(){
 				getCurrency = $("#currency-dropdown").val();
-				$("#footer").empty();
+				$(".whole-ticker").empty();
 				tickerAJAXCall();
-
 			});
+
+			// $("#currency-dropdown").on("change", function(){
+			// 	// $(".whole-ticker").remove();
+
+			// 	tickerAJAXCall();
+			// 	getCurrency = $("#currency-dropdown").val();
+			// });
 		});
 }
 
@@ -132,8 +198,8 @@ function searchCurrencyAJAXCall (currency){
 
 		searchedCurrencyDiv.append("<p>" + results[0].rank + ". </p>");
 		searchedCurrencyDiv.append("<p> $" + results[0].price_usd + " USD</p>");
-		searchedCurrencyDiv.append("<p>" + results[0].percent_change_1h + "% </p>");
-		searchedCurrencyDiv.append("<p>" + results[0].percent_change_24h + "% </p>");
+		searchedCurrencyDiv.append("<p>" + results[0].percent_change_1h + "% in last hour</p>");
+		searchedCurrencyDiv.append("<p>" + results[0].percent_change_24h + "% in last 24 hours</p>");
 		searchedCurrencyDiv.append(USDConverterForm);
 		USDConverterFormLabel.text("Convert  " + results[0].name + " to USD");
 		USDConverterForm.append(USDConverterFormLabel);
@@ -157,51 +223,6 @@ function searchCurrencyAJAXCall (currency){
 			});
 }
 
-
-
-// Foreign currency converter API that pulls up-to-date information
-// on exchange rates between USD and other foreign currencies.
-
-
-function converterAJAXCall (){
-
-	var converterQueryURL = "http://api.fixer.io/latest?base=USD";
-
-	var getCurrency = $("#currency-dropdown").val();
-	var currencySelector = $("<div id='currency-selector'>")
-	var currencyLabel = $("<label for='currency-dropdown'>")
-	var currencyDropdown = $("<select id='currency-dropdown'>");
-
-	$.ajax({
-		url: converterQueryURL,
-		method: "GET"
-	})
-	.done(function(response) {
-
-		console.log(response);
-
-			// Creating foreign currency dropdown with API info
-
-			$.each(response.rates, function (i, val) {
-				
-				var currencyDropdownOptions = $("<option>");
-				currencyDropdownOptions.addClass("currency-dropdown-option");
-				currencyDropdownOptions.attr("value", val);
-				currencyDropdownOptions.attr("data-name", i);
-				currencyDropdownOptions.text(i);
-				currencyDropdown.append(currencyDropdownOptions);
-
-
-				currencySelector.append(currencyLabel);
-				currencySelector.append(currencyDropdown);
-
-				$("#header").append(currencySelector);
-			});
-		});
-}
-// Calling the converter function
-
-converterAJAXCall ();
 
 
 
