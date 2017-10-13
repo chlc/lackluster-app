@@ -1,0 +1,19 @@
+.whole-ticker {
+	float: right;
+}
+
+#currency-selector{
+	float: right;
+	position: relative;
+	top: 5px;
+	margin-right: 30px;
+}
+
+#pick-currency{
+	float:right;
+}
+
+
+h1{
+	text-align: center;
+}

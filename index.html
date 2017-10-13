@@ -2,56 +2,111 @@
 <html>
 <head>
 	<title>Lack.Luster</title>
-	
-	<!-- Favicon Image -->
-	<link rel="icon" href="assets/images/LL.png">
-
-	<!-- Link to Css Reeset -->
-	<link rel="stylesheet" type="text/css" href="assets/stylesheet/reset.css">
 
 	<!-- Skeleton CSS CDN Link -->
-	<link src="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+	<link rel="stylesheet" href="skeleton.css">
 
-	<!-- Linke to Jquery Here -->
-	 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-	<!-- Link to Firebase database. -->
-	<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
-
-	<!-- Link to Local Stylesheet  -->
-	<link rel="stylesheet" type="text/css" href="assets/stylesheet/stylesheet.css">
-
-	<!-- Link to local Javascript File -->
-	<script type="text/javascript" scr="assets/javascript/app.js"></script>
-
+	<link rel="stylesheet" href="style.css">
 
 </head>
 <body>
 	
-	<!-- Header -->
-	<div id="header">
-		<div><h1>Lack Luster</h1></div>
-		
+	<!-- This is the Main Skeleton Div Shell -->
+	<div class="container-fluid">
+
+
+
+		<!-- -========================================================================= -->
+		<!-- This is the True Header -->
+		<!-- ========================================================================== -->
+		<div class="row">
+			<div class="column-one">
+				<span id="LackLuster"><h1>LackLuster</h1></span>
+			</div>
+		</div>
+		<!-- -========================================================================= -->
+		<!-- This is the True Header -->
+		<!-- ========================================================================== -->
+
+
+
+<!-- Adding line breaks to section off our HTML Document -->
+<hr>
+
+
+
+		<!-- ============================================================================== -->
+		<!-- This is the main button creation area/Header -->
+		<!-- ============================================================================== -->
+		<div class="row">
+			<div class="five columns">
+				<div id="header">
+					<form id="currency-search">
+						  <label for="currency-input">Add a cryptocurrency</label>
+					      <input type="text" id="currency-input" placeholder="Search for currency"><br>
+					      <input class="btn" id="add-currency" type="submit" value="Submit">
+				    </form>
+				</div>
+			</div>
+
+
+			<div class="seven columns" id="currency-dropdownHolder">
+				<span id="pick-currency">Hey, Pick a Currency</span><br>
+
+				<div id="button-holder"></div>
+
+			</div>
+		</div>
+		<!-- ============================================================================== -->
+		<!-- This is the main button creation area/Header -->
+		<!-- ============================================================================== -->
+
+
+<!-- Adding line breaks to section off our HTML Document -->
+<hr>
+	
+
+	<!-- ================================================================================== -->
+	<!-- Main body of all the content.  -->
+	<!-- =================================================================================== -->
+	<div class="row">
+		<div class="eight columns portfolio">
+
+		</div>
+
+
+		<div class="four columns whole-ticker">
+			<div id="body">
+				
+
+			</div>
+		</div>
 	</div>
-
-	<!-- Body -->
-	<div id="body">
-
-	</div>
-
-
-	<!-- Footer -->
-	<div id="footer">
-
-	</div>
+	<!-- ================================================================================== -->
+	<!-- Main body of all the content.  -->
+	<!-- =================================================================================== -->
 
 
 
-	<!-- Link to local Javascript File -->
-	<script type="text/javascript" src="assets/javascript/app.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- End of Main Skeleton DIV -->
+</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<script type="text/javascript" src="ajax.js"></script>
 
 </body>
-
-
-
 </html>
