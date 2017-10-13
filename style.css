@@ -1,5 +1,7 @@
 .whole-ticker {
 	float: right;
+	text-align: right;
+	margin-right:  30px;
 }
 
 #currency-selector{
@@ -16,4 +18,8 @@
 
 h1{
 	text-align: center;
+}
+
+.ticker{
+	background-color: #dadada;
 }

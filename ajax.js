@@ -78,8 +78,11 @@ function converterAJAXCall (){
 converterAJAXCall ();
 // ===================================================================================
 
-// CoinMarketCap API AJAX call function to generate the ticker sidebar
 
+
+// ===================================================================================
+// CoinMarketCap API AJAX call function to generate the ticker sidebar
+// ===================================================================================
 function tickerAJAXCall (){
 
 	var topNumber = "10"
@@ -92,31 +95,21 @@ function tickerAJAXCall (){
 	})
 	.done(function(response) {
 
-	
 
-		$(".whole-ticker").empty();
+
+		$("#tickerList").empty();
 
 		var results = response;
 
-		// var rowDiv = $("<div class='row'>");
-		// var columnDiv = $("<div class='four columns whole-ticker'>");
-		// var eightColumnsDiv = $("<div class='eight columns portfolio'>");
-		// var currencyDescription = $("<div id='currency-description'>")
-		// var currencyButtons = $("<div id='currency-buttons'>");
-		
-		
 
 
 			// This for loop takes the info from the API call
 			// and pushes it to the DOM
-
-
 			for (var i = 0; i < results.length; i++) {
 
 				var tickerDiv = $("<div class='ticker'>");
-				var ranking =  results[i].rank;
-				var currencyName = "<p>" + results[i].name + "  (" + results[i].symbol + ")---$" + accounting.formatNumber(results[i].price_usd, 2) + "  USD  </p>";
-				// var priceUSD = "<p> $" + results[i].price_usd + "  USD  </p>";
+				var currencyName = "<p>" + results[i].name + "  (" + results[i].symbol + ") @ $" + accounting.formatNumber(results[i].price_usd, 2) + "  USD  </p>";
+				var ranking =  "<p>" + results[i].rank+ "</p>"
 				var priceOther = "<p>" + results[i].price_eur + "  Other  </p>";
 				var changeOnehour = $("<p>");
 				var changeDay = "<p>" + results[i].percent_change_24h + "%  in last 24 hours</p>";
@@ -130,23 +123,17 @@ function tickerAJAXCall (){
 					changeOnehour.attr("style", "color: red;");
 				}
 
-				tickerDiv.append(ranking);
+				
 				tickerDiv.append(currencyName);
-				// tickerDiv.append(priceUSD);
-				tickerDiv.append(accounting.formatNumber(foreignCurrencyMultiplier, 2) + getCurrencyName);
+				tickerDiv.append(ranking);
+				tickerDiv.append(accounting.formatNumber(foreignCurrencyMultiplier, 2));
 				changeOnehour.html(results[i].percent_change_1h + "% in last hour");
 				tickerDiv.append(changeOnehour);
 				tickerDiv.append(changeDay);
-				columnDiv.append(tickerDiv);
-				eightColumnsDiv.append(currencyButtons);
-				eightColumnsDiv.append(currencyDescription);
-				rowDiv.append(eightColumnsDiv);
-				rowDiv.append(columnDiv);
+				
 
-
-				$("#body").append(rowDiv);
-
-				// Adding a header to our Ticker Section
+				// appending the the Main body - Ticker Section. 
+				$("#tickerList").append(tickerDiv);
 
 			}
 
@@ -157,7 +144,7 @@ function tickerAJAXCall (){
 			$("#currency-dropdown").on("change", function(){
 				getCurrency = $("#currency-dropdown").val();
 				getCurrencyName = $(this).attr("data-name");
-				$(".whole-ticker").empty();
+				$("#tickerList").empty();
 				tickerAJAXCall();
 
 			});
@@ -166,13 +153,21 @@ function tickerAJAXCall (){
 		});
 }
 
+// ==================================================================================================
+// ================================End of TICKER AJAX CALL FUNCTION==================================
+// ==================================================================================================
+
 // Call function to generate ticker when page loads
 
 tickerAJAXCall();
 
+
+
+// =================================================================================================
 // Currency search box listener that also calls the renderButtons
 // function, which makes a button based on the search and also
 // writes that info to the DOM
+// =================================================================================================
 
 $("#add-currency").on("click", function(event) {
 	event.preventDefault();
