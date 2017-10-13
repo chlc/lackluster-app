@@ -1,9 +1,3 @@
-/*#whole-ticker {
-	float: right;
-	text-align: right;
-	margin-right:  30px;
-
-}*/
 
 #currency-selector{
 	float: right;
@@ -20,7 +14,20 @@
 h1{
 	text-align: center;
 }
+h4{
+	text-align: center;
+}
 
 .ticker{
 	background-color: #dadada;
+}
+
+span{
+	text-align: center;
+}
+
+.searched{
+	float:left;
+	margin-left:7%;
+	margin-right:7%;
 }

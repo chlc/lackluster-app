@@ -10,7 +10,7 @@
 
 var cryptocurrencies = [];
 
-
+var myTotalBalance = 0;
 // =========================================================================================
 // Function to render cryptocurrency buttons for personalized menu
 // ==========================================================================================
@@ -204,31 +204,25 @@ function searchCurrencyAJAXCall (currency){
 
 		console.log(response);
 		var results = response;
+		var currencyValue = 0;
 		var searchedCurrencyDiv = $("<div class='searched'>");
 		var USDConverterForm = $("<form id='usd-to-crypto'>");
-		var lineBreak = $('<br>');
 		var USDConverterFormLabel = $("<label for='usd-to-crypto-box'>");
 		var USDConverterFormInput = $("<input type='text' id='usd-to-crypto-box'>");
 		var converterResults = $("<div id='converter-results'>");
 
 		searchedCurrencyDiv.attr("style", "color: blue;");
 
-		searchedCurrencyDiv.append("<span>" + results[0].rank + ". </span>");
-		searchedCurrencyDiv.append(lineBreak);
-		searchedCurrencyDiv.append("<span> $" + results[0].price_usd + " USD</span>");
-		searchedCurrencyDiv.append(lineBreak);
-		searchedCurrencyDiv.append("<span>" + results[0].percent_change_1h + "% in last hour</span>");
-		searchedCurrencyDiv.append(lineBreak);
-		searchedCurrencyDiv.append("<span>" + results[0].percent_change_24h + "% in last 24 hours</span>")
-		searchedCurrencyDiv.append(lineBreak);;
+		// searchedCurrencyDiv.append("<span>" + results[0].rank + ". </span>");
+		// searchedCurrencyDiv.append(lineBreak);
+		searchedCurrencyDiv.append("<span> <h5>" + results[0].name + " </h5></span>");
+		searchedCurrencyDiv.append("<span>Current Price -- $" + results[0].price_usd + " USD</span><br>");
+		searchedCurrencyDiv.append("<span>" + results[0].percent_change_24h + "% in last 24 hours</span><br>")
 		searchedCurrencyDiv.append(USDConverterForm);
-		USDConverterFormLabel.text("Convert  " + results[0].name + " to USD");
-		searchedCurrencyDiv.append(lineBreak);
+		USDConverterFormLabel.text("My " + results[0].name + " balance " + currencyValue);
 		USDConverterForm.append(USDConverterFormLabel);
-		searchedCurrencyDiv.append(lineBreak);
 		USDConverterFormInput.attr("placeholder", "Convert " + results[0].name + "to USD");
 		USDConverterForm.append(USDConverterFormInput);
-		searchedCurrencyDiv.append(lineBreak);
 		searchedCurrencyDiv.append(converterResults);
 
 
@@ -242,7 +236,7 @@ function searchCurrencyAJAXCall (currency){
 					var userUSD = $("#usd-to-crypto-box").val();
 					var userMoneyConverter = (results[0].price_usd * userUSD);
 					$("#converter-results").text("$" + userMoneyConverter.toFixed(2) + " USD");
-
+ 
 				});
 
 			});
