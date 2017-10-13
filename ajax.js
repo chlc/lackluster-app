@@ -27,6 +27,7 @@ function renderButtons() {
 }
 
 var getCurrency = 0;
+var getCurrencyName;
 
 
 // Foreign currency converter API that pulls up-to-date information
@@ -115,6 +116,7 @@ function tickerAJAXCall (){
 				var changeOnehour = $("<p>");
 				var changeDay = "<p>" + results[i].percent_change_24h + "%  in last 24 hours</p>";
 				var foreignCurrencyMultiplier = (getCurrency * results[i].price_usd).toFixed(2);
+				console.log("Currency name" + getCurrencyName);
 
 				if (results[i].percent_change_1h > 0) {
 					changeOnehour.attr("style", "color: green;");
@@ -126,7 +128,7 @@ function tickerAJAXCall (){
 				tickerDiv.append(ranking);
 				tickerDiv.append(currencyName);
 				// tickerDiv.append(priceUSD);
-				tickerDiv.append(accounting.formatNumber(foreignCurrencyMultiplier, 2));
+				tickerDiv.append(accounting.formatNumber(foreignCurrencyMultiplier, 2) + getCurrencyName);
 				changeOnehour.html(results[i].percent_change_1h + "% in last hour");
 				tickerDiv.append(changeOnehour);
 				tickerDiv.append(changeDay);
@@ -145,6 +147,7 @@ function tickerAJAXCall (){
 
 			$("#currency-dropdown").on("change", function(){
 				getCurrency = $("#currency-dropdown").val();
+				getCurrencyName = $(this).attr("data-name");
 				$(".whole-ticker").empty();
 				tickerAJAXCall();
 
@@ -213,7 +216,8 @@ function searchCurrencyAJAXCall (currency){
 				// Change function that listens for a change in the
 				// converter box to change from cryptocurrency to USD
 
-				$("#usd-to-crypto-box").on("change", function(){
+				$("#usd-to-crypto-box").on("change", function(event){
+					event.preventDefault();
 					var userUSD = $("#usd-to-crypto-box").val();
 					var userMoneyConverter = (results[0].price_usd * userUSD);
 					$("#converter-results").text("$" + userMoneyConverter.toFixed(2) + " USD");
