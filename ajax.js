@@ -24,7 +24,7 @@ function renderButtons() {
 		addButton.addClass("cryptocurrency btn button");
 		addButton.attr("data-name", cryptocurrencies[i]);
 		addButton.text(cryptocurrencies[i]);
-		$("#currency-buttons").append(addButton);
+		$(".portfolio").append(addButton);
 	}
 }
 
@@ -108,11 +108,12 @@ function tickerAJAXCall (){
 			for (var i = 0; i < results.length; i++) {
 
 				var tickerDiv = $("<div class='ticker'>");
-				var currencyName = "<p>" + results[i].name + "  (" + results[i].symbol + ") @ $" + accounting.formatNumber(results[i].price_usd, 2) + "  USD  </p>";
-				var ranking =  "<p>" + results[i].rank+ "</p>"
+				var currencyName =  results[i].name + "  (" + results[i].symbol + ") @ $" + accounting.formatNumber(results[i].price_usd, 2) + "  USD  <br>";
+				var ranking =  "Currency Rank: " + results[i].rank + "<br>";
 				var priceOther = "<p>" + results[i].price_eur + "  Other  </p>";
-				var changeOnehour = $("<p>");
-				var changeDay = "<p>" + results[i].percent_change_24h + "%  in last 24 hours</p>";
+				var changeOnehour = $("<span>");
+				var lineBreak = ("<br>");
+				var changeDay = "<span>" + results[i].percent_change_24h + "%  in last 24 hours</span>";
 				var foreignCurrencyMultiplier = (getCurrency * results[i].price_usd).toFixed(2);
 				console.log("Currency name" + getCurrencyName);
 
@@ -126,10 +127,18 @@ function tickerAJAXCall (){
 				
 				tickerDiv.append(currencyName);
 				tickerDiv.append(ranking);
-				tickerDiv.append(accounting.formatNumber(foreignCurrencyMultiplier, 2));
-				changeOnehour.html(results[i].percent_change_1h + "% in last hour");
 				tickerDiv.append(changeOnehour);
+				tickerDiv.append(lineBreak);
+				changeOnehour.html(results[i].percent_change_1h + "% in last hour");
 				tickerDiv.append(changeDay);
+				tickerDiv.append(lineBreak);
+				// changeOnehour.html(results[i].percent_change_1h + "% in last hour");
+				tickerDiv.append(accounting.formatNumber(foreignCurrencyMultiplier, 2));
+				tickerDiv.append(lineBreak);
+				tickerDiv.append(lineBreak);
+
+				// tickerDiv.append(changeOnehour);
+				// tickerDiv.append(changeDay);
 				
 
 				// appending the the Main body - Ticker Section. 
@@ -197,25 +206,33 @@ function searchCurrencyAJAXCall (currency){
 		var results = response;
 		var searchedCurrencyDiv = $("<div class='searched'>");
 		var USDConverterForm = $("<form id='usd-to-crypto'>");
+		var lineBreak = $('<br>');
 		var USDConverterFormLabel = $("<label for='usd-to-crypto-box'>");
 		var USDConverterFormInput = $("<input type='text' id='usd-to-crypto-box'>");
 		var converterResults = $("<div id='converter-results'>");
 
 		searchedCurrencyDiv.attr("style", "color: blue;");
 
-		searchedCurrencyDiv.append("<p>" + results[0].rank + ". </p>");
-		searchedCurrencyDiv.append("<p> $" + results[0].price_usd + " USD</p>");
-		searchedCurrencyDiv.append("<p>" + results[0].percent_change_1h + "% in last hour</p>");
-		searchedCurrencyDiv.append("<p>" + results[0].percent_change_24h + "% in last 24 hours</p>");
+		searchedCurrencyDiv.append("<span>" + results[0].rank + ". </span>");
+		searchedCurrencyDiv.append(lineBreak);
+		searchedCurrencyDiv.append("<span> $" + results[0].price_usd + " USD</span>");
+		searchedCurrencyDiv.append(lineBreak);
+		searchedCurrencyDiv.append("<span>" + results[0].percent_change_1h + "% in last hour</span>");
+		searchedCurrencyDiv.append(lineBreak);
+		searchedCurrencyDiv.append("<span>" + results[0].percent_change_24h + "% in last 24 hours</span>")
+		searchedCurrencyDiv.append(lineBreak);;
 		searchedCurrencyDiv.append(USDConverterForm);
 		USDConverterFormLabel.text("Convert  " + results[0].name + " to USD");
+		searchedCurrencyDiv.append(lineBreak);
 		USDConverterForm.append(USDConverterFormLabel);
+		searchedCurrencyDiv.append(lineBreak);
 		USDConverterFormInput.attr("placeholder", "Convert " + results[0].name + "to USD");
 		USDConverterForm.append(USDConverterFormInput);
+		searchedCurrencyDiv.append(lineBreak);
 		searchedCurrencyDiv.append(converterResults);
 
 
-		$("#currency-description").append(searchedCurrencyDiv);
+		$("#portfolio").append(searchedCurrencyDiv);
 
 				// Change function that listens for a change in the
 				// converter box to change from cryptocurrency to USD
