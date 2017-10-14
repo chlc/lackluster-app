@@ -4,26 +4,108 @@
 	<title>Lack.Luster</title>
 
 	<!-- Skeleton CSS CDN Link -->
-	<link src="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+	<link rel="stylesheet" href="skeleton.css">
+
+	<link rel="stylesheet" href="style.css">
 
 </head>
 <body>
 	
-	<!-- Header -->
-	<div id="header">
-		
+	<!-- This is the Main Skeleton Div Shell -->
+	<div class="container-fluid">
+
+
+
+		<!-- -========================================================================= -->
+		<!-- This is the True Header -->
+		<!-- ========================================================================== -->
+		<div class="row">
+			<div class="column-one">
+				<span id="LackLuster"><h1>LackLuster</h1></span>
+			</div>
+		</div>
+		<!-- -========================================================================= -->
+		<!-- This is the True Header -->
+		<!-- ========================================================================== -->
+
+
+
+<!-- Adding line breaks to section off our HTML Document -->
+<hr>
+
+
+
+		<!-- ============================================================================== -->
+		<!-- This is the main button creation area/Header -->
+		<!-- ============================================================================== -->
+		<div class="row">
+			<div class="five columns">
+						  <label>Add a cryptocurrency</label>
+					      <input type="text" id="currency-input" placeholder="Search for currency"><br>
+					      <button class="btn" id="add-currency" type="submit" value="Submit">submit</button>
+			</div>
+			
+
+
+			<div class="seven columns" id="currency-dropdownHolder">
+				<span id="pick-currency">Hey, Pick a Currency</span><br>
+
+				<div id="button-holder"></div>
+
+			</div>
+		</div>
+		<!-- ============================================================================== -->
+		<!-- This is the main button creation area/Header -->
+		<!-- ============================================================================== -->
+
+
+<!-- Adding line breaks to section off our HTML Document -->
+<hr>
+	
+
+	<!-- ================================================================================== -->
+	<!-- Main body of all the content.  -->
+	<!-- =================================================================================== -->
+	<div class="row">
+		<div class="ten columns" id="portfolio">
+			<span id="portfolio"><h4>My Crypto Assets</h4></span>
+
+		</div>
+
+
+		<div class="two columns" id="whole-ticker">
+			<span><h4>Top 10 Currency Ticker</h4></span>
+
+			<!-- This div actually is where out ticker values live.  -->
+			<div id="tickerList"></div>
+			
+		</div>
 	</div>
-
-	<!-- Body -->
-	<div id="body">
-
-	</div>
+	<!-- ================================================================================== -->
+	<!-- Main body of all the content.  -->
+	<!-- =================================================================================== -->
 
 
-	<!-- Footer -->
-	<div id="footer">
 
-	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- End of Main Skeleton DIV -->
+</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<script type="text/javascript" src="ajax.js"></script>
 
 </body>
 </html>
