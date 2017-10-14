@@ -103,6 +103,7 @@ function tickerAJAXCall (){
 
 
 
+
 			// This for loop takes the info from the API call
 			// and pushes it to the DOM
 			for (var i = 0; i < results.length; i++) {
@@ -165,10 +166,13 @@ function tickerAJAXCall (){
 // ==================================================================================================
 // ================================End of TICKER AJAX CALL FUNCTION==================================
 // ==================================================================================================
-
+	var time = 1000*300;
 // Call function to generate ticker when page loads
+	tickerAJAXCall();
 
-tickerAJAXCall();
+ 	 setTimeout(function(){
+			  	tickerAJAXCall();
+  				},time);
 
 
 
@@ -204,24 +208,25 @@ function searchCurrencyAJAXCall (currency){
 
 		console.log(response);
 		var results = response;
-		var currencyValue = 0;
 		var searchedCurrencyDiv = $("<div class='searched'>");
-		var USDConverterForm = $("<form id='usd-to-crypto'>");
+		var USDConverterForm = $("<form class='usd-to-crypto'>");
 		var USDConverterFormLabel = $("<label for='usd-to-crypto-box'>");
-		var USDConverterFormInput = $("<input type='text' id='usd-to-crypto-box'>");
-		var converterResults = $("<div id='converter-results'>");
+		var USDConverterFormInput = $("<input type='text' class='usd-to-crypto-box'>");
+		var converterResults = $("<div class='converter-result'>");
 
 		searchedCurrencyDiv.attr("style", "color: blue;");
+		searchedCurrencyDiv.attr("data-conversion", results[0].price_usd);
 
 		// searchedCurrencyDiv.append("<span>" + results[0].rank + ". </span>");
-		// searchedCurrencyDiv.append(lineBreak);
+		converterResults.attr("data-name", results[0].name);
+		USDConverterFormInput.attr("data-name", results[0].name);
 		searchedCurrencyDiv.append("<span> <h5>" + results[0].name + " </h5></span>");
 		searchedCurrencyDiv.append("<span>Current Price -- $" + results[0].price_usd + " USD</span><br>");
 		searchedCurrencyDiv.append("<span>" + results[0].percent_change_24h + "% in last 24 hours</span><br>")
 		searchedCurrencyDiv.append(USDConverterForm);
-		USDConverterFormLabel.text("My " + results[0].name + " balance " + currencyValue);
+		USDConverterFormLabel.text("My " + results[0].name + " balance ");
 		USDConverterForm.append(USDConverterFormLabel);
-		USDConverterFormInput.attr("placeholder", "Convert " + results[0].name + "to USD");
+		USDConverterFormInput.attr("placeholder", "Convert " + results[0].name + " to USD");
 		USDConverterForm.append(USDConverterFormInput);
 		searchedCurrencyDiv.append(converterResults);
 
@@ -231,16 +236,42 @@ function searchCurrencyAJAXCall (currency){
 				// Change function that listens for a change in the
 				// converter box to change from cryptocurrency to USD
 
-				$("#usd-to-crypto-box").on("change", function(event){
-					event.preventDefault();
-					var userUSD = $("#usd-to-crypto-box").val();
-					var userMoneyConverter = (results[0].price_usd * userUSD);
-					$("#converter-results").text("$" + userMoneyConverter.toFixed(2) + " USD");
+				// $(".usd-to-crypto-box").on("change", function(event){
+				// 	event.preventDefault();
+				// 	var userUSD = $(".usd-to-crypto-box").val();
+				// 	console.log(userUSD);
+				// 	// ading the user input value of their currencyValue. 
+				// 	var userMoneyConverter = $(this).closest(".searched").attr("data-conversion");
+				// 	// $(converterResults).text("$" + userMoneyConverter.toFixed(2) + " USD");
+				// 	console.log(userMoneyConverter);
+				// 	var resultDiv = $(this).closest(".searched").find(".converter-result");
+				// 	console.log(resultDiv);
+				// 	resultDiv.text(userMoneyConverter * userUSD);
+
  
-				});
+				// });
 
 			});
 }
+
+
+
+
+			$(document).on("change", ".usd-to-crypto-box", function(event){
+					event.preventDefault();
+					var userUSD = $(this).val();
+					console.log(userUSD);
+					// ading the user input value of their currencyValue. 
+					var userMoneyConverter = $(this).closest(".searched").attr("data-conversion");
+					// $(converterResults).text("$" + userMoneyConverter.toFixed(2) + " USD");
+					console.log(userMoneyConverter);
+					var resultDiv = $(this).closest(".searched").find(".converter-result");
+					console.log(resultDiv);
+					resultDiv.text(userMoneyConverter * userUSD);
+
+ 
+				});
+
 
 
 

@@ -20,6 +20,7 @@ h4{
 
 .ticker{
 	background-color: #dadada;
+	font-size: 15px;
 }
 
 span{
@@ -28,6 +29,6 @@ span{
 
 .searched{
 	float:left;
-	margin-left:7%;
-	margin-right:7%;
+	margin-left:50px;
+	margin-right:50px;
 }
