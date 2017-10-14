@@ -14,23 +14,45 @@
 
 
 //Collect User Data from Signup
-$("#signup").click(function(event){
-		event.preventDefault();
-		var email-signup = $('#email-signup').val().trim();
-		var password-signup = $("#password-signup").val().trim();
+$("#signup").click(function(event){(
+		event.preventDefault()
+ var emailnew = email-signup.val
+ var passwordnew = password-signup.val
+ var auth = firebase.auth()
+ var user = firebase.auth().currentUser
+  )};
 
-		var newuser = {
-    email: email-signup
-    password: password-signup
-  };
+//Creates New User
+ var promise = auth.createUserWithEmailAndPassword(email, pass);
+ promise.then(function(user) {
+ user.sendEmailVerification().then(function() {
+ // Email sent.
+ }, function(error) {
+ // An error happened.
+ });
 
-// Uploads new user data to the database
-  database.ref().push(newuser);
-
-// Logs everything to console
-  console.log(newuser.email);
-  console.log(newuser.password);
-
-// Clears all of the text-boxes
+// Clears all of the text-boxes for user signup
   $("#email-signup").val("");
   $("#password-signup").val("");
+
+
+//User Login Event
+var email-login = document.getElementById('email-login');
+var password-login = document.getElementById('password-login');
+
+$("#login").click(function(event){
+		event.preventDefault();
+ 		
+
+ var email = email-login.value;
+ var password = password-login.value;
+ var auth = firebase.auth();
+
+ var promise = auth.signInWithEmailAndPassword(email, password);
+ promise.catch(function (e) {
+ return console.log(e.message);
+  };
+
+// Clears all of the text-boxes for user login
+  $("#email-login").val("");
+  $("#password-login").val("");
