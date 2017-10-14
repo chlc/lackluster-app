@@ -22,13 +22,23 @@ $("#signup").click(function(event){(
  var user = firebase.auth().currentUser
   )};
 
-//Creates New User
+//Creates New User via Firebase Authentication
  var promise = auth.createUserWithEmailAndPassword(email, pass);
  promise.then(function(user) {
  user.sendEmailVerification().then(function() {
  // Email sent.
  }, function(error) {
  // An error happened.
+ });
+
+ //Sends User Info to firebase DB
+user.updateProfile({
+    Name: "#name"
+    Email: "#emailnew"  
+  }).then(function() {
+  // Update successful.
+  }, function(error) {
+  // An error happened.
  });
 
 // Clears all of the text-boxes for user signup
