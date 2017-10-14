@@ -41,6 +41,7 @@ user.updateProfile({
   // An error happened.
  });
 
+
 // Clears all of the text-boxes for user signup
   $("#email-signup").val("");
   $("#password-signup").val("");
@@ -62,6 +63,30 @@ $("#login").click(function(event){
  promise.catch(function (e) {
  return console.log(e.message);
   };
+
+//Page redirect
+firebase.auth().onAuthStateChanged(user => {
+  if(user) {
+    window.location = 'index.html';
+  }
+  else{
+    //Do nothing.
+  }
+});
+
+// Authentication Listner
+// Verifies that login credentials are correct otherwise returns error message
+ var Message = "<div class=\"loginmessage\">" + "Login Unsuccessful" + "</div>";
+ firebase.auth().onAuthStateChanged(function (firebaseUser) {
+ if (firebaseUser) {
+ console.log(firebaseUser);
+ } else {
+  $('#loginmessage').append(Message);
+ console.log('not logged in');
+ } // end else statement
+ }); // end function
+ })();
+
 
 // Clears all of the text-boxes for user login
   $("#email-login").val("");
