@@ -1,4 +1,4 @@
-// Accounting.js for formatting currency
+// Accounting.js for formatting currency (minified, dropped directly into code)
 
 /*!
  * accounting.js v0.4.2, copyright 2014 Open Exchange Rates, MIT license, http://openexchangerates.github.io/accounting.js
@@ -110,13 +110,14 @@ function tickerAJAXCall (){
 
 				var tickerDiv = $("<div class='ticker'>");
 				var ranking = "<p>" + results[i].rank + ". </p>";
-				var currencyName = "<p>" + results[i].name + "  (" + results[i].symbol + ")---$" + accounting.formatNumber(results[i].price_usd, 2) + "  USD  </p>";
+				var currencyName = "<p>" + results[i].name + "  (" + results[i].symbol + ")---" + accounting.formatNumber(results[i].price_usd, 2) + "  USD  </p>";
 				// var priceUSD = "<p> $" + results[i].price_usd + "  USD  </p>";
-				var priceOther = "<p>" + results[i].price_eur + "  Other  </p>";
 				var changeOnehour = $("<p>");
-				var changeDay = "<p>" + results[i].percent_change_24h + "%  in last 24 hours</p>";
+				var changeDay = $("<p>");
 				var foreignCurrencyMultiplier = (getCurrency * results[i].price_usd).toFixed(2);
 				console.log("Currency name" + getCurrencyName);
+
+				// If/else statements for coloring of percent change
 
 				if (results[i].percent_change_1h > 0) {
 					changeOnehour.attr("style", "color: green;");
@@ -125,12 +126,21 @@ function tickerAJAXCall (){
 					changeOnehour.attr("style", "color: red;");
 				}
 
+				if (results[i].percent_change_24h > 0) {
+					changeDay.attr("style", "color: green;");
+				}
+				else {
+					changeDay.attr("style", "color: red;");
+				}
+
+				tickerDiv.attr("id", "ticker-box-" + (i + 1));
 				tickerDiv.append(ranking);
 				tickerDiv.append(currencyName);
 				// tickerDiv.append(priceUSD);
 				tickerDiv.append(accounting.formatNumber(foreignCurrencyMultiplier, 2) + getCurrencyName);
 				changeOnehour.html(results[i].percent_change_1h + "% in last hour");
 				tickerDiv.append(changeOnehour);
+				changeDay.html(results[i].percent_change_24h + "% in last 24 hours");
 				tickerDiv.append(changeDay);
 				columnDiv.append(tickerDiv);
 				eightColumnsDiv.append(currencyButtons);
@@ -145,17 +155,15 @@ function tickerAJAXCall (){
 			// This listener changes the ticker when the 
 			// foreign currency dropdown is changed
 
-			$("#currency-dropdown").on("change", function(){
-				getCurrency = $("#currency-dropdown").val();
-				getCurrencyName = $(this).attr("data-name");
-				$(".whole-ticker").empty();
-				tickerAJAXCall();
-
 			});
 
-			
-		});
 }
+
+$(document).on("change", "#currency-dropdown", function(){
+				getCurrency = $("#currency-dropdown").val();
+				$(".whole-ticker").empty();
+				tickerAJAXCall();
+				});
 
 // Call function to generate ticker when page loads
 
@@ -192,9 +200,8 @@ function searchCurrencyAJAXCall (currency){
 		console.log(response);
 		var results = response;
 		var searchedCurrencyDiv = $("<div class='searched'>");
-		var USDConverterForm = $("<form id='usd-to-crypto'>");
 		var USDConverterFormLabel = $("<label for='usd-to-crypto-box'>");
-		var USDConverterFormInput = $("<input type='text' id='usd-to-crypto-box'>");
+		var USDConverterFormInput = $("<input type='number' id='usd-to-crypto-box'>");
 		var converterResults = $("<div id='converter-results'>");
 
 		searchedCurrencyDiv.attr("style", "color: blue;");
@@ -203,11 +210,11 @@ function searchCurrencyAJAXCall (currency){
 		searchedCurrencyDiv.append("<p> $" + results[0].price_usd + " USD</p>");
 		searchedCurrencyDiv.append("<p>" + results[0].percent_change_1h + "% in last hour</p>");
 		searchedCurrencyDiv.append("<p>" + results[0].percent_change_24h + "% in last 24 hours</p>");
-		searchedCurrencyDiv.append(USDConverterForm);
+		// searchedCurrencyDiv.append(USDConverterForm);
 		USDConverterFormLabel.text("Convert  " + results[0].name + " to USD");
-		USDConverterForm.append(USDConverterFormLabel);
+		searchedCurrencyDiv.append(USDConverterFormLabel);
 		USDConverterFormInput.attr("placeholder", "Convert " + results[0].name + "to USD");
-		USDConverterForm.append(USDConverterFormInput);
+		searchedCurrencyDiv.append(USDConverterFormInput);
 		searchedCurrencyDiv.append(converterResults);
 
 
