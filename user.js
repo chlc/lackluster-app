@@ -1,15 +1,11 @@
-//Todo's as of 10.14.17
-//Figure out why data is not pushing to authentication server firebase
-//Figure out how to have both forms work independently of eachother -- DONE
-//Figure out re-directs for when buttons are set
-//Figure out how to get data in both DB and authentication
-//Figure out email authentication
-//Figure out localstorage / saving user settings 
-//Stylistic bs
-//Cleanup
-
-
-
+//Todos 10.17.17
+//Refine user-login so that created account can be used to login
+//Change redirect link
+//Create console log messages for sucessfull and unsuccessful login
+//Create messages to populate in div inside modal if login is unsuccessful
+//Send email verification link
+//Store session in local storage / cache
+//Add "logout" button
 
 
 // Initialize Firebase
@@ -23,92 +19,88 @@
   };
   firebase.initializeApp(config);
 
+
+  // var firebaseref = new Firebase("https://lackluster-5966e.firebaseapp.com");
   var database = firebase.database();
   var auth = firebase.auth();
   var user = firebase.auth().currentUser;
   console.log(config);
 
-var emailnew;
-var passwordnew;
-
 //Collect User Data from Signup
 $("#signupbutton").click(function(event){
-		event.preventDefault();
+   event.preventDefault();
 emailnew = $("#emailSignup").val();
 passwordnew = $("#passwordSignup").val();
-database.ref().push(emailnew, passwordnew);
+database.ref().push({ email: emailnew, password: passwordnew });
 console.log(emailnew);
 console.log(passwordnew);
   });
 
-
-
-//Creates New User via Firebase Authentication
- var promise = auth.createUserWithEmailAndPassword(emailnew, passwordnew);
- promise.then(function(user) {
- user.sendEmailVerification().then(function() {
- // Email sent.
- }, function(error) {
- // An error happened.
- });
-
- //Sends User Info to firebase DB
-user.updateProfile({
-    Name: name,
-    Email: emailnew  
-  }).then(function() {
-  // Update successful.
-  }, function(error) {
-  // An error happened.
- });
-
-
-// Clears all of the text-boxes for user signup
-  $("#emailSignup").val("");
-  $("#passwordSignup").val("");
-
-
-//User Login Event
-var emailLogin = document.getElementById('emailLogin');
-var passwordLogin = document.getElementById('passwordLogin');
-
+//Collect User Data from Login
 $("#login").click(function(event){
-		event.preventDefault();
- 		
-
- var email = emailLogin.value;
- var password = passwordLogin.value;
- var auth = firebase.auth();
-
- var promise = auth.signInWithEmailAndPassword(email, password);
- promise.catch(function (e) {
- return console.log(e.message);
+   event.preventDefault();
+emailcurrent = $("#emailLogin").val();
+passwordcurrent = $("#passwordLogin").val();
+database.ref().push({ email: emailcurrent, password: passwordcurrent });
+console.log(emailcurrent);
+console.log(passwordcurrent);
   });
 
-// //Page redirect
-// firebase.auth().onAuthStateChanged(user => {
-//   if(user) {
-//     window.location = 'index.html';
-//   }
-//   else{
-//     //Do nothing.
-//   }
-// });
+  //User signup function
+ $('#signupbutton').click(function() {
 
-// Authentication Listner
-// Verifies that login credentials are correct otherwise returns error message
- var Message = "<div class=\"loginmessage\">" + "Login Unsuccessful" + "</div>";
- firebase.auth().onAuthStateChanged(function (firebaseUser) {
- if (firebaseUser) {
- console.log(firebaseUser);
- } else {
-  $('#loginmessage').append(Message);
- console.log('not logged in');
- } // end else statement
- }); // end function
- });
+        var email = $('#emailSignup');    
+        var pass = $('#passwordSignup');      
 
-// Clears all of the text-boxes for user login
-  $("#emailLogin").val("");
-  $("#passwordLogin").val("")
+      if(email.val() && pass.val()){
+
+    firebase.auth().createUserWithEmailAndPassword(email.val(), pass.val()).then(function(user){
+        console.log('everything went fine');
+        console.log('user object:' + user);
+        //you can save the user data here.
+    }).catch(function(error) {
+        console.log('there was an error');
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode + ' - ' + errorMessage);
+    });
+    firebase.auth().onAuthStateChanged(user => {
+  if(user) {
+    window.location = 'https://google.com'; //After successful login, user will be redirected to home.html
+  }
+});
+
+} else {
+    console.log('fill in both fields');
+}
+});
+
+//User Login Function
+ $('#login').click(function() {
+
+        var email = $('#emailLogin');    
+        var pass = $('#passwordLogin');      
+
+      if(email.val() && pass.val()){
+
+    firebase.auth().signInWithEmailAndPassword(email.val(), pass.val()).then(function(user){
+        console.log('everything went fine');
+        console.log('user object:' + user);
+        //you can save the user data here.
+        
+    }).catch(function(error) {
+        console.log('there was an error');
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode + ' - ' + errorMessage);
+    });
+    firebase.auth().onAuthStateChanged(user => {
+  if(user) {
+    window.location = 'https://google.com'; //After successful login, user will be redirected to home.html
+  }
+});
+
+} else {
+    console.log('fill in both fields');
+}
 });

@@ -29,16 +29,6 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="images/favicon.png">
 
-<!-- Firebase 
- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<script src="https://www.gstatic.com/firebasejs/4.5.1/firebase.js"></script>
-
-
-  <!-- JS
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
-<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="user.js"></script>
 </head>
 <body style="background-image:url(sayagata.png)">
 
@@ -84,10 +74,10 @@
 
       
       <div class="tab-content">
+
         <!-- User Signup Form -->
         <div id="signup">   
           <h1>Sign Up </h1>
-          
           
 
           <div class="field-wrap">
@@ -135,7 +125,7 @@
             <input type="passwordLogin" id="passwordLogin" required autocomplete="off"/>
           </div>
           
-          <p class="forgot"><a href="#">Forgot Password?</a></p>
+          <!-- <p class="forgot"><a href="#">Forgot Password?</a></p> -->
           
           <button class="button button-block" id="login" />Log In</button>
 
@@ -230,6 +220,18 @@ $('.tab a').on('click', function (e) {
       </div>
     </div>
   </div>
+
+  <!-- Placed script links down here to help page load faster -->
+  <!-- Firebase 
+ –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<script src="https://www.gstatic.com/firebasejs/4.5.1/firebase.js"></script>
+
+
+  <!-- JS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="user.js"></script>
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
