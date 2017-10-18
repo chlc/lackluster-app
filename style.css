@@ -1,0 +1,80 @@
+body{
+	font-family: 'Open Sans Condensed', sans-serif;
+}
+
+#currency-selector{
+	float: right;
+	position: relative;
+	top: 5px;
+	
+}
+
+#pick-currency{
+	float:right;
+
+}
+
+
+h1{
+	text-align: center;
+	font-size: 60px;
+	margin-bottom: 0px;
+}
+h4{
+	text-align: center ;
+}
+h2{
+	text-align: center;
+	font-size: 25px;
+	margin-bottom: 0px;
+
+}
+
+#balance{
+	line-height:  150px;
+	font-size: 35px;
+	font-weight: bold;
+}
+
+.ticker{
+	font-weight:  bold;
+	font-size: 15px;
+	border-width: 10px;
+	border-color: black;
+}
+
+span{
+	text-align: left;
+}
+
+.searched{
+	float:left;
+	margin-left:50px;
+	margin-right:50px;
+}
+
+
+.usd-to-crypto-box {
+    width: 200px;
+    position: relative;
+}
+
+.hidden{
+	opacity: .05;
+}
+
+#usd-to-crypto-box{
+	font-weight:  bold;
+	font-size: 30px;
+	border-width: 10px;
+	border-color: black;
+}
+
+#logout{
+	float: right;
+}
+
+
+
+
+
