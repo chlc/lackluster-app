@@ -213,7 +213,7 @@ function searchCurrencyAJAXCall (currency){
 		var results = response;
 		var searchedCurrencyDiv = $("<div class='searched'>");
 		// var USDConverterForm = $("<form class='usd-to-crypto'>");
-		var USDConverterFormLabel = $("<span for='usd-to-crypto-box'>");
+		var USDConverterFormLabel = $("<span class='searchedDetails'>");
 		var USDConverterFormInput = $("<input type='number' class='usd-to-crypto-box'>");
 		var converterResults = $("<span class='converter-result'>");
 
@@ -223,9 +223,9 @@ function searchCurrencyAJAXCall (currency){
 		
 		converterResults.attr("data-name", results[0].name);
 		USDConverterFormInput.attr("data-name", results[0].name);
-		searchedCurrencyDiv.append("<span> <h5>" + results[0].name + " </h5></span>");
-		searchedCurrencyDiv.append("<span>Current Price -- $" + results[0].price_usd + " USD</span><br>");
-		searchedCurrencyDiv.append("<span>" + results[0].percent_change_24h + "% in last 24 hours</span><br>")
+		searchedCurrencyDiv.append("<span id= 'crypto-name' >" + results[0].name + "</span><br>");
+		searchedCurrencyDiv.append("<span class='searchedDetails'>Current Price -- $" + results[0].price_usd + " USD</span><br>");
+		searchedCurrencyDiv.append("<span class='searchedDetails'>" + results[0].percent_change_24h + "% in last 24 hours</span><br>")
 		USDConverterFormLabel.html("My " + results[0].name + " balance $");
 		searchedCurrencyDiv.append(USDConverterFormLabel);
 		USDConverterFormInput.attr("placeholder", "Convert " + results[0].name + " to USD");

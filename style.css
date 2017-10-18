@@ -27,7 +27,10 @@ h2{
 	text-align: center;
 	font-size: 25px;
 	margin-bottom: 0px;
+}
 
+#crypto-name{
+	font-size: 30px;
 }
 
 #balance{
@@ -74,7 +77,14 @@ span{
 	float: right;
 }
 
+.searchedDetails, .converter-result{
+	font-size: 18px;
+
+}
 
 
-
+#tickerList{
+	height: 450px;
+	overflow: scroll;
+}
 
