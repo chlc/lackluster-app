@@ -1,0 +1,19 @@
+body{
+	font-family: 'Open Sans Condensed', sans-serif;
+}
+
+#title{
+	width: 100%
+}
+
+#period{
+	color: #0FFF95;
+	font-size: 75px;
+	font-family: 'Roboto Slab', serif;
+}
+
+#myBtn{
+	font-size:14px;
+	font-weight: bold;
+
+}
