@@ -2,9 +2,15 @@ body{
 	font-family: 'Open Sans Condensed', sans-serif;
 }
 
+#period{
+	color: #0FFF95;
+	font-size: 75px;
+	font-family: 'Roboto Slab', serif;
+}
+
+
 #currency-selector{
 	float: right;
-	position: relative;
 	top: 5px;
 	
 }
@@ -42,8 +48,8 @@ h2{
 .ticker{
 	font-weight:  bold;
 	font-size: 15px;
-	border-width: 10px;
-	border-color: black;
+	/*border-width: 10px;
+	border-color: black;*/
 }
 
 span{
@@ -86,5 +92,69 @@ span{
 #tickerList{
 	height: 450px;
 	overflow: scroll;
+}
+
+#logout{
+	font-size: 20px;
+	margin-right: 1%;
+}
+
+#addCryptoDiv{
+	margin-left: 1%;
+}
+
+#portfolio{
+	margin-left: 1%;
+}
+
+#whole-ticker{
+	float: right;
+	margin-right: 1%
+}
+
+#top10{
+	border-bottom-style: solid;
+	border-bottom-color: #000000;
+	text-align: center;
+}
+
+hr{
+   border: 1px solid #000000;
+}
+
+#addCurrencyLabel{
+	font-size: 20px;
+}
+
+#pick-currency{
+	font-size: 20px;
+	float:right;
+}
+
+#currency-dropdownHolder{
+	float:right;
+	margin-right: 1%;
+}
+
+#currencyDropList{
+	float:right;
+}
+
+select{
+	float: right;
+}
+
+a{
+	color:#000000;
+}
+
+#spacingCheat1{
+	margin-bottom: 1000px;
+}
+
+img{
+	height: 30px;
+	width: 30px;
+	margin-left: 1%;
 }
 

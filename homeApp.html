@@ -16,6 +16,7 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– 
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css"> -->
 	<link href="https://fonts.googleapis.com/css?family=Abel|Open+Sans+Condensed:300" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 
 
 	<!-- Skeleton CSS CDN Link -->
@@ -23,6 +24,10 @@
 
 	<!--  Local Stylesheet-->
 	<link rel="stylesheet" href="style.css">
+
+	  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/LL.png">
 
 
 
@@ -41,8 +46,13 @@
 			
 
 			<div class="column-one">
-				<a href="index.html"><span id="logout">Logout</span></a>
-				<span id="LackLuster"><h1>Lackluster</h1><h2>Personal Cryptocurrency portfolio with realtime market capitalizations</h2></span>
+				<span><img src="images/threelines.png">
+					
+
+				<a href="index.html"><span id="logout"><u>Logout</u></span></a>
+
+
+				<span id="LackLuster"><h1>Lack<span id="period">.</span>Luster</h1><h2>Personal Cryptocurrency portfolio with realtime market capitalizations</h2></span>
 
 			</div>
 
@@ -62,10 +72,10 @@
 		<!-- This is the main button creation area/Header -->
 		<!-- ============================================================================== -->
 		<div class="row">
-			<div class="four columns"> <br>
-						  <label id="addCurrencyLabel">Add a cryptocurrency</label>
+			<div class="four columns" id="addCryptoDiv"> <span id="spacingCheat1"></span>
+						  <form><span id="addCurrencyLabel">Add a cryptocurrency</span><br id="spacingCheat">
 					      <input type="text" id="currency-input" placeholder="Search for currency"><br>
-					      <button class="btn" id="add-currency" type="submit" value="Submit">submit</button>
+					      <button class="btn" id="add-currency" type="submit" value="Submit">submit</button></form>
 			</div>
 			
 			<div class="four columns balance">
@@ -74,7 +84,7 @@
 
 
 			<div class="three columns" id="currency-dropdownHolder"><br>
-				<span id="pick-currency">Pick a currency</span><br>
+				<span id="pick-currency">Pick a currency</span><br><br>
 
 				<div id="button-holder"></div>
 
@@ -97,14 +107,16 @@
 	<!-- Main body of all the content.  -->
 	<!-- =================================================================================== -->
 	<div class="row">
-		<div class="ten columns" id="portfolio">
+		<div class="nine columns" id="portfolio">
 			<span id="portfolio"><h3 id="myCryptoAssets">My Crypto Assets</h3></span>
 
 		</div>
+		
+		<!-- <div class="one column">
+		</div> -->
 
-
-		<div class="two columns" id="whole-ticker">
-			<span><h3 id="top10">Top 10 Currency Ticker</h3></span>
+		<div class="threecolumns" id="whole-ticker"><br><br>
+			<span id="top10Span"><h5 id="top10">Top 10 Currency Ticker</h5></span>
 
 			<!-- This div actually is where out ticker values live.  -->
 			<div id="tickerList"></div>

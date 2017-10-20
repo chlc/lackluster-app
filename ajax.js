@@ -39,10 +39,10 @@ function converterAJAXCall (){
 
 	var converterQueryURL = "http://api.fixer.io/latest?base=USD";
 
-	var getCurrency = $("#currency-dropdown").val();
-	var getCurrencyName = $('#currency-dropdown').attr("data-name");
+	// var getCurrency = $("#currency-dropdown").val();
+	// var getCurrencyName = $('#currency-dropdown').attr("data-name");
 	var currencySelector = $("<div id='currency-selector'>")
-	var currencyLabel = $("<label for='currency-dropdown'>")
+	var currencyLabel = $("<span for='currency-dropdown'>")
 	var currencyDropdown = $("<select id='currency-dropdown'>");
 
 	$.ajax({
@@ -72,7 +72,8 @@ function converterAJAXCall (){
 }
 
 // Calling the converter function
-converterAJAXCall ();
+converterAJAXCall();
+
 // ===================================================================================
 
 
@@ -186,7 +187,7 @@ function tickerAJAXCall (){
 // writes that info to the DOM
 // =================================================================================================
 
-$("#add-currency").on("click", function(event) {
+$(document).on("click", "#add-currency", function(event) {
 	event.preventDefault();
 	var cryptocurrencyType = $("#currency-input").val().trim();
 	cryptocurrencies.push(cryptocurrencyType);
@@ -216,6 +217,7 @@ function searchCurrencyAJAXCall (currency){
 		var USDConverterFormLabel = $("<span class='searchedDetails'>");
 		var USDConverterFormInput = $("<input type='number' class='usd-to-crypto-box'>");
 		var converterResults = $("<span class='converter-result'>");
+		
 
 		searchedCurrencyDiv.attr("style", "color: black;");
 		searchedCurrencyDiv.attr("data-conversion", results[0].price_usd);
@@ -225,7 +227,7 @@ function searchCurrencyAJAXCall (currency){
 		USDConverterFormInput.attr("data-name", results[0].name);
 		searchedCurrencyDiv.append("<span id= 'crypto-name' >" + results[0].name + "</span><br>");
 		searchedCurrencyDiv.append("<span class='searchedDetails'>Current Price -- $" + results[0].price_usd + " USD</span><br>");
-		searchedCurrencyDiv.append("<span class='searchedDetails'>" + results[0].percent_change_24h + "% in last 24 hours</span><br>")
+		searchedCurrencyDiv.append("<span class='searchedDetails id='percentChange'>" + "<span id='dayPriceChange'>" + results[0].percent_change_24h + "</span>" + "% in last 24 hours</span><br>")
 		USDConverterFormLabel.html("My " + results[0].name + " balance $");
 		searchedCurrencyDiv.append(USDConverterFormLabel);
 		USDConverterFormInput.attr("placeholder", "Convert " + results[0].name + " to USD");
@@ -233,6 +235,7 @@ function searchCurrencyAJAXCall (currency){
 		USDConverterFormLabel.append(converterResults);
 		USDConverterFormLabel.append("<br>");
 
+ 
 
 		$("#portfolio").append(searchedCurrencyDiv);
 
@@ -300,27 +303,4 @@ function searchCurrencyAJAXCall (currency){
                      }
 
 
-
-
-	function ajaxRefresh (currency){
-
-	var searchQueryURL = "https://api.coinmarketcap.com/v1/ticker/" + currency + "/";
-
-	$.ajax({
-		url: searchQueryURL,
-		method: "GET"
-	})
-	.done(function(response) {
-
-		console.log(response);
-		
-		$("searched").html("<span>Current Price -- $" + results[0].price_usd + " USD</span><br>");
-		// searchedCurrencyDiv.append("<span>" + results[0].percent_change_24h + "% in last 24 hours</span><br>")
-		// USDConverterFormLabel.text("My " + results[0].name + " balance $");
-		// searchedCurrencyDiv.append(USDConverterFormLabel);
-		// USDConverterFormInput.attr("placeholder", "Convert " + results[0].name + " to USD");
-		// searchedCurrencyDiv.append(USDConverterFormInput);
-		// USDConverterFormLabel.append(converterResults);
-	});
-}
 
