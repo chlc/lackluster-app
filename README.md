@@ -3,4 +3,3 @@
  ![Slide 3](readme/Slide3.jpg)
  ![Slide 4](readme/Slide4.jpg)
  ![Slide 5](readme/Slide5.jpg)
- ![Slide 6](readme/Slide6.jpg)
