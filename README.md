@@ -1,5 +1,7 @@
 ***Lack.Luster -- Personal Cryptocurrency portfolio with realtime market capitalizations
 
+ ![App](readme/lack.luster_screenshot.jpg)
+
  ![Slide 1](readme/Slide1.jpg)
 
  ![Slide 2](readme/Slide2.jpg)
